@@ -1,7 +1,37 @@
-function sum(a: number, b: number) {
-  return a + b;
-}
+import { request } from "graphql-request";
+import { User } from "../entity/User";
+import { startServer } from "../startServer";
+import { AddressInfo } from "net";
 
-test("Adds 1 + 2 to equal 3", () => {
-    expect(sum(1,2)).toBe(3);
+let getHost = () => "";
+
+beforeAll(async () => {
+  const app = await startServer();
+  const { port } = app.address() as AddressInfo;
+  getHost = () => `http://127.0.0.1:${port}`;
 });
+
+const email = "tt.dev@gmail.com";
+const password = "jfkajkfjak";
+
+const mutation = `
+mutation {
+    register(email: "${email}", password: "${password}")
+}
+`;
+
+test("Register user", async () => {
+  const respone = await request(getHost(), mutation);
+  expect(respone).toEqual({ register: true });
+
+  const users = await User.find({ where: { email } });
+  expect(users).toHaveLength(1);
+
+  const user = users[0];
+  expect(user.email).toEqual(email);
+  expect(user.password).not.toEqual(password);
+});
+
+// use a test dabase
+// drop all data once test is over
+// when i run test it also starts the server
