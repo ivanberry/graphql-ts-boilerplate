@@ -4,8 +4,6 @@ import { default as typeDefs } from "./typeDefs";
 import { default as resolvers } from "./resolvers";
 import { createTypeormConn } from "./utils/createTypeormConn";
 
-// import { createTypeormConn } from "./utils/createTypeormConn";
-
 export const startServer = async () => {
   const server = new GraphQLServer({ resolvers, typeDefs });
   await createTypeormConn();
