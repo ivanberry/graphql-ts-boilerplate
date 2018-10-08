@@ -9,7 +9,7 @@ function translateError(msg: string):any {
         newErr.originErr = e;
         newErr.msg = msg;
         console.log("errors", newErr);
-        throw newErr;
+        throw newErr.msg;
     }
 }
 
