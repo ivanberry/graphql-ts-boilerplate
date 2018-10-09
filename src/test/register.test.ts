@@ -20,6 +20,7 @@ mutation {
 }
 `;
 
+
 test("Register user", async () => {
   const respone = await request(getHost(), mutation);
   expect(respone).toEqual({ register: true });
