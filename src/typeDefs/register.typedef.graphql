@@ -1,4 +1,4 @@
 # import Error from "../../shared.graphql"
 type Mutation {
-    register(email: String!, password: String!): [Error!]
+    register(email: String!, password: String!): Boolean!
 }
